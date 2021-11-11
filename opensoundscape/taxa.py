@@ -1,8 +1,18 @@
 """a set of utilites for converting between scientific and common names of bird species in different naming systems (xeno canto and bird net)"""
 import numpy as np
 import pandas as pd
+import importlib
 
-species_table = pd.read_csv("/home/louisfh/Development/opensoundscape/resources/species_table.csv")
+text = importlib.resources.read_text("myapp.data_subpackage", "textfile.txt")
+
+DATA_MODULE = "opensoundscape.resources"
+def load_species_table() -> pd.DataFrame:
+    with importlib.resources.path(DATA_MODULE, "species_table.csv") as foo:
+        return pd.read_csv(foo)
+
+species_table = load_species_table()
+#species_table = pd.read_csv("/home/louisfh/Development/opensoundscape/resources/species_table.csv")
+
 
 def get_species_list():
     """list of scientific-names (lowercase-hyphenated) of species in the loaded species table"""
